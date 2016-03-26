@@ -1,0 +1,122 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='WolframEngine 10.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       160,          7]
+NotebookDataLength[      3246,        113]
+NotebookOptionsPosition[      2550,         93]
+NotebookOutlinePosition[      2906,        108]
+CellTagsIndexPosition[      2863,        105]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[StyleData[StyleDefinitions -> "Default.nb"]],
+
+Cell[StyleData["Title"],
+ ShowCellBracket->Automatic,
+ FontFamily->"Gill Sans MT",
+ FontSize->22,
+ FontWeight->"Plain",
+ FontSlant->"Plain",
+ FontVariations->{"StrikeThrough"->False,
+ "Underline"->False},
+ FontColor->RGBColor[0., 0., 0.]],
+
+Cell[StyleData["Text"],
+ ShowCellBracket->Automatic],
+
+Cell[StyleData["Abstract", StyleDefinitions -> StyleData["Text"]],
+ FontFamily->"Arial Narrow",
+ FontSize->14,
+ FontWeight->"Plain",
+ FontSlant->"Plain",
+ FontVariations->{"StrikeThrough"->False,
+ "Underline"->False},
+ FontColor->RGBColor[
+  0.5019607843137255, 0.5019607843137255, 0.5019607843137255]],
+
+Cell[StyleData["Section"],
+ Editable->True,
+ CellFrame->{{False, False}, {True, True}},
+ ShowCellBracket->False,
+ ShowGroupOpener->True,
+ GroupOpenerInsideFrame->True,
+ CellMargins->{{0, 0}, {0, 0}},
+ CellElementSpacings->{"ClosedGroupTopMargin"->60},
+ Evaluatable->False,
+ CellGroupingRules->{"SectionGrouping", 30},
+ ShowCellLabel->False,
+ CellLabelAutoDelete->True,
+ CellFrameMargins->{{20, Inherited}, {6, 6}},
+ CellFrameColor->GrayLevel[0.898039],
+ ParagraphSpacing->{0.7000000000000002, 0},
+ FontFamily->"Arial",
+ FontSize->13,
+ FontWeight->"Bold",
+ FontTracking->"Plain",
+ FontColor->GrayLevel[0.137255],
+ Background->GrayLevel[0.968627]],
+
+Cell[StyleData["Item"],
+ Editable->True,
+ CellDingbat->StyleBox["\[FilledSmallSquare]", FontColor -> RGBColor[1, 0, 0]],
+ ShowCellBracket->Automatic,
+ CellMargins->{{40, 24}, {7, 5}},
+ CellFrameMargins->4,
+ MenuCommandKey->"8",
+ FontFamily->"Arial",
+ FontSize->14,
+ FontWeight->"Plain",
+ FontSlant->"Plain",
+ FontVariations->{"StrikeThrough"->False,
+ "Underline"->False}],
+
+Cell[StyleData["Subsection"],
+ ShowCellBracket->Automatic,
+ ShowGroupOpener->True,
+ FontFamily->"Arial",
+ FontSize->14,
+ FontWeight->"Plain",
+ FontSlant->"Plain",
+ FontVariations->{"StrikeThrough"->False,
+ "Underline"->False},
+ FontColor->RGBColor[
+  0.5019607843137255, 0.5019607843137255, 0.5019607843137255]]
+},
+WindowSize->{1280, 959},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.3 for Linux ARM (32-bit) (January 18, 2016)",
+StyleDefinitions->"PrivateStylesheetFormatting.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[560, 20, 49, 0, 40, 49, 0, "StyleData", "StyleDefinitions", ""],
+Cell[612, 22, 238, 8, 82, 24, 0, "StyleData", "Title", "All"],
+Cell[853, 32, 52, 1, 50, 23, 0, "StyleData", "Text", "All"],
+Cell[908, 35, 302, 8, 50, 66, 0, "StyleData", "Abstract", "All"],
+Cell[1213, 45, 645, 20, 50, 26, 0, "StyleData", "Section", "All"],
+Cell[1861, 67, 371, 12, 47, 23, 0, "StyleData", "Item", "All",
+ MenuCommandKey->"8"],
+Cell[2235, 81, 311, 10, 56, 29, 0, "StyleData", "Subsection", "All"]
+}
+]
+*)
+
+(* End of internal cache information *)

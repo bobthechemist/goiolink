@@ -19,12 +19,12 @@
 // Version numbers
 #define GOIO_MAJOR_VERSION 1
 #define GOIO_MINOR_VERSION 0
-#define GOIO_PATCH_NUMBER 0
-#define GOIO_RC_NUMBER 1
+#define GOIO_PATCH_NUMBER 1
+#define GOIO_RC_NUMBER 0
 
 #define TARGET_OS_LINUX
 #define GOIO_MAX_SIZE_DEVICE_NAME 260
-#define MAX_NUM_MEASUREMENTS 999 // Not sure why or if really needed
+#define MAX_NUM_MEASUREMENTS 1000 
 
 // Error codes
 #define ERR_OK 0
