@@ -32,14 +32,14 @@ use `git clone https://github.com/bobthechemist/goiolink.git` and after entering
 In a Mathematica session (initiated either from the command line with `wolfram` or the notebook interface via `mathematica`) you need to first load the package with `<<GoIO`` and then open the device with `d = DeviceOpen["GoIO"]`.  Now, assuming you have the Go! Link USB adapter connected to the RPi and a sensor connected to the adapter, you can type `d["Read"]` for a sensor measurement.  In the notebook interface, you can try `goioRTInterface[d]` which will create a real-time plot of the sensor readings.  Additional documentation to come.
 
 ### Current functionality
--d["Read"] reads the current sensor value, which is the average of all values currently in the Go! Link buffer
--d["ReadLong"] returns the standard deviation and number of readings that were in the buffer as well
--d["ReadAll"] returns all the values in the buffer
--d["Units"] returns the units of the sensor response
--d["Name"] is the name of the sensor
--d["MeasurementPeriod"] returns the current sensor measurement period (default is 0.04 s).  This property can be used to set the sensor measurement period as well.  It is recommended that this value not be set below 0.02 s.  
--d["Calibration"] returns the three coefficients of the calibration equation, and a 4th number corresponding to the function type (e.g. linear, exponential, ...)
--goioVersion[] returns version information for the Vernier SDK, device driver and Mathematica package
+- d["Read"] reads the current sensor value, which is the average of all values currently in the Go! Link buffer
+- d["ReadLong"] returns the standard deviation and number of readings that were in the buffer as well
+- d["ReadAll"] returns all the values in the buffer
+- d["Units"] returns the units of the sensor response
+- d["Name"] is the name of the sensor
+- d["MeasurementPeriod"] returns the current sensor measurement period (default is 0.04 s).  This property can be used to set the sensor measurement period as well.  It is recommended that this value not be set below 0.02 s.  
+- d["Calibration"] returns the three coefficients of the calibration equation, and a 4th number corresponding to the function type (e.g. linear, exponential, ...)
+- goioVersion[] returns version information for the Vernier SDK, device driver and Mathematica package
 
 ## General issues at present
 - Sensors can be interchanged without restarting Mathematica; however the change is not detected automatically.  Whenever changing the sensor, type `DeviceConfigure[d]` to refresh the sensor information.
