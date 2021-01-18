@@ -8,6 +8,19 @@ a Go! Link USB adapter and the Wolfram Language.  The flagship component of my V
 You may head on over to the releases and download the zip file containing the driver (goio) and *Mathematica* package (GoIO.m).  These two files must be copied into a directory named '/home/pi/.WolframEngine/Applications/GoIO'.  You can replace "pi" with your username if you have done so.
 
 ## The other way (only slightly less easy)
+
+### Important note
+Recently (January, 2021) I observed that the SDK is not compiling properly.  I do not know why this is the case; however there is a workaround.  From the directory in which you installed the SDK:
+
+```
+cd GoIO_cpp
+cp NonSmartSensorDDSRecs.cpp NonSmartSensorDDSRecs.cpp.bak
+sed -i '/\-1.*Averaging/s/\-1/(unsigned char)(\-1)/g' NonSmartSensorDDSRecs.cpp
+sed -i '/\-1.*CurrentRequirement/s/\-1/(unsigned char)(\-1)/g' NonSmartSensorDDSRecs.cpp
+```
+
+Do this before running `./build.sh` below.
+
 ### Install and compile the Vernier SDK
 The following set of commands will allow you to download and install the Vernier Software & Technology Software Development Kit for Go! Link devices.
 ```
