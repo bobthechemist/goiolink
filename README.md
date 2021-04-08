@@ -6,7 +6,16 @@ a Go! Link USB adapter and the Wolfram Language.  The flagship component of my V
 
 ## The new way
 
-temp fix
+A script is available that downloads the SDK, compiles the drivers, installs the files and does a basic check of functionality.  It's a work in progress and has only been tested on a clean Buster image (recommended software build, not the smaller builds).  Assumes that the script is run in pi's home directory.
+
+```
+cd ~
+wget https://raw.githubusercontent.com/bobthechemist/goiolink/master/vernierlink.sh
+bash vernierlink.sh
+```
+
+You should have the GO!Link adapter and a sensor attached to the RPi before you start.  The process will take 10-15 minutes, depending on how quickly the required packages can be downloaded.
+
 
 ## The easy way
 You may head on over to the releases and download the zip file containing the driver (goio) and *Mathematica* package (GoIO.m).  These two files must be copied into a directory named '/home/pi/.WolframEngine/Applications/GoIO'.  You can replace "pi" with your username if you have done so.
