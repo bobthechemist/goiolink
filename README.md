@@ -4,6 +4,10 @@ a Go! Link USB adapter and the Wolfram Language.  The flagship component of my V
 
 # Installation
 
+## The new way
+
+temp fix
+
 ## The easy way
 You may head on over to the releases and download the zip file containing the driver (goio) and *Mathematica* package (GoIO.m).  These two files must be copied into a directory named '/home/pi/.WolframEngine/Applications/GoIO'.  You can replace "pi" with your username if you have done so.
 
