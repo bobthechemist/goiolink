@@ -146,8 +146,8 @@ if test "$RVAL" = "s"
 then
   echo "Skipping driver install."
 else
-  rm -r "~/.Mathematica/Applications/GoIO" 2>/dev/null
-  mkdir "~/.Mathematica/Applications/GoIO"
+  rm -fr ~/.Mathematica/Applications/GoIO 2>/dev/null
+  mkdir ~/.Mathematica/Applications/GoIO
   cp goiolink/GoIO.m ~/.Mathematica/Applications/GoIO
   cp goiolink/goio ~/.Mathematica/Applications/GoIO
 fi
