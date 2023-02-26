@@ -32,7 +32,7 @@ then
 else
   echo "Mathematica is installed"
   LIB=$(find /opt -name libWSTP32i4.so | head -n 1)
-  echo "Setting up MathLink library"
+  echo "Setting up WSTP library"
   sudo cp $LIB /usr/local/lib
   sudo ldconfig
 fi
