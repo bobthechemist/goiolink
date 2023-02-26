@@ -1,4 +1,4 @@
-/* 
+/*
 
   goio.c
 
@@ -6,10 +6,10 @@
   Copyright (c) 2016 BoB LeSuer
   Distributed under the MIT license
 
-  Components of the GoIO software development kit are 
+  Components of the GoIO software development kit are
   Copyright (c) 2010 Vernier Software & Technology
   All rights reserved
-  See LICENSE_VST.txt for complete license 
+  See LICENSE_VST.txt for complete license
 
 */
 
@@ -20,18 +20,18 @@
 #include "vutility.h"
 #include "utility.h"
 #include "GoIO_DLL_interface.h"
-#include "mathlink.h"
+#include "wstp.h"
 
 // I think the device handle needs to be global
 GOIO_SENSOR_HANDLE hDevice;
 
 int main(int argc, char* argv[])
 {
-  return MLMain(argc, argv);
+  return WSMain(argc, argv);
 
 }
 
-/* 
+/*
   Creates a device handle and starts the sensor with a default measurement period
   Returns 0 if all OK and 1 if there is an error. However, the return value is not
   observed in Mathematica when DeviceOpen is called, so it is of little use.
@@ -48,7 +48,7 @@ void deviceopen()
   bool bFoundDevice = GetAvailableDeviceName(deviceName, GOIO_MAX_SIZE_DEVICE_NAME, &vendorId, &productId);
   if (!bFoundDevice)
   {
-    MLPutDouble(stdlink, ERR_NO_DEVICE_FOUND);
+    WSPutDouble(stdlink, ERR_NO_DEVICE_FOUND);
     return;
   }
   else
@@ -59,7 +59,7 @@ void deviceopen()
     }
     GoIO_Sensor_SetMeasurementPeriod(hDevice, 0.040, SKIP_TIMEOUT_MS_DEFAULT);
     GoIO_Sensor_SendCmdAndGetResponse(hDevice, SKIP_CMD_ID_START_MEASUREMENTS, NULL, 0, NULL, NULL, SKIP_TIMEOUT_MS_DEFAULT);
-    MLPutDouble(stdlink, ERR_OK);
+    WSPutDouble(stdlink, ERR_OK);
   }
   return;
 }
@@ -71,8 +71,8 @@ void deviceopen()
 */
 void deviceconfigure(gtype_real64 measurementPeriod)
 {
-  /* 
-    At this point, configure is simply a rehash of deviceopen with the ability to change some paramters.  It 
+  /*
+    At this point, configure is simply a rehash of deviceopen with the ability to change some paramters.  It
     will close and re-establish the device handle, which means it should also be useful as a device refresh
     in the event that the user switches sensors.
   */
@@ -91,7 +91,7 @@ void deviceconfigure(gtype_real64 measurementPeriod)
   bool bFoundDevice = GetAvailableDeviceName(deviceName, GOIO_MAX_SIZE_DEVICE_NAME, &vendorId, &productId);
   if (!bFoundDevice)
   {
-    MLPutDouble(stdlink, ERR_NO_DEVICE_FOUND);
+    WSPutDouble(stdlink, ERR_NO_DEVICE_FOUND);
     return;
   }
   else
@@ -102,16 +102,16 @@ void deviceconfigure(gtype_real64 measurementPeriod)
     }
     GoIO_Sensor_SetMeasurementPeriod(hDevice, measurementPeriod, SKIP_TIMEOUT_MS_DEFAULT);
     GoIO_Sensor_SendCmdAndGetResponse(hDevice, SKIP_CMD_ID_START_MEASUREMENTS, NULL, 0, NULL, NULL, SKIP_TIMEOUT_MS_DEFAULT);
-    MLPutDouble(stdlink, ERR_OK);
+    WSPutDouble(stdlink, ERR_OK);
   }
   return;
 
 }
 /*
-  Returns an array of length 3 contianing the average voltage of all measurements currently in the 
+  Returns an array of length 3 contianing the average voltage of all measurements currently in the
   buffer, the standard deviation of that number, and the number of measurements that were in the buffer.
-  Due to problems I have noticed with the Vernier SDK, I am off-loading the calibration procedure to 
-  Mathematica.  The greatest impact of this decision is that the standard deviation cannot be easily 
+  Due to problems I have noticed with the Vernier SDK, I am off-loading the calibration procedure to
+  Mathematica.  The greatest impact of this decision is that the standard deviation cannot be easily
   converted to the sensor units.
 */
 void deviceread()
@@ -130,13 +130,13 @@ void deviceread()
   output[0] = average(volts,numMeasurements);
   output[1] = standardDeviation(volts,numMeasurements);
   output[2] = (gtype_real64)numMeasurements;
-  MLPutRealList(stdlink, output,3);
+  WSPutRealList(stdlink, output,3);
   return;
-  
+
 }
 
 /*
-  devicereadbuffer() is similar to deviceread except that it does not aggregate the results and 
+  devicereadbuffer() is similar to deviceread except that it does not aggregate the results and
   instead returns all values currently in the buffer.  One may be interested in using this routine
   for high-speed data acquisition, but care must be made to ensure that the buffer was cleared
   prior to starting the measurements (two read operations would do the trick) and that fewer than
@@ -155,13 +155,13 @@ void devicereadbuffer()
   {
     volts[i] = GoIO_Sensor_ConvertToVoltage(hDevice, rawMeasurements[i]);
   }
-  MLPutRealList(stdlink, volts,numMeasurements);
+  WSPutRealList(stdlink, volts,numMeasurements);
   return;
-  
+
 }
 
 /*
-  deviceinfo returns the name of the sensor currently attached to the Go! Link.  A 
+  deviceinfo returns the name of the sensor currently attached to the Go! Link.  A
   sensor name of "Missing" is reported if the sensor is not connected.
 */
 void deviceinfo()
@@ -171,11 +171,11 @@ void deviceinfo()
   GoIO_Sensor_DDSMem_GetLongName(hDevice, sensorName, sizeof(sensorName));
   if (strlen(sensorName) != 0)
   {
-    MLPutString(stdlink, sensorName);
+    WSPutString(stdlink, sensorName);
   }
   else
   {
-    MLPutString(stdlink, "Missing");
+    WSPutString(stdlink, "Missing");
   }
   return;
 }
@@ -193,11 +193,11 @@ void deviceunits()
   GoIO_Sensor_DDSMem_GetCalPage(hDevice, calPage, &a, &b, &c, units, sizeof(units));
   if (strlen(units) != 0)
   {
-    MLPutString(stdlink, units);
+    WSPutString(stdlink, units);
   }
   else
   {
-    MLPutString(stdlink, "Missing");
+    WSPutString(stdlink, "Missing");
   }
 
 }
@@ -224,18 +224,18 @@ void devicecalibration()
   calList[1] = b;
   calList[2] = c;
   calList[3] = (gtype_real32)equationType;
-  MLPutReal32List(stdlink,calList, 4);
+  WSPutReal32List(stdlink,calList, 4);
 
 }
 
-/* 
+/*
   devicemeasurementperiod returns the current measurement period for the sensor
 */
 void devicemeasurementperiod()
 {
   gtype_real64 measurementPeriod;
   measurementPeriod = GoIO_Sensor_GetMeasurementPeriod(hDevice, SKIP_TIMEOUT_MS_DEFAULT);
-  MLPutDouble(stdlink, measurementPeriod);
+  WSPutDouble(stdlink, measurementPeriod);
   return;
 }
 
@@ -258,7 +258,7 @@ void deviceversion()
   returnval[4] = (int)GOIO_PATCH_NUMBER;
   returnval[5] = (int)GOIO_RC_NUMBER;
 
-  MLPutIntegerList(stdlink,returnval,6);
+  WSPutIntegerList(stdlink,returnval,6);
 }
 
 /*
@@ -275,6 +275,5 @@ void deviceclose()
   uninitresult = GoIO_Uninit();
   hDevice = NULL;
 
-  MLPutDouble(stdlink, closeresult + 2 * uninitresult);
+  WSPutDouble(stdlink, closeresult + 2 * uninitresult);
 }
-

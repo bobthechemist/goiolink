@@ -31,7 +31,7 @@ then
   exit 2
 else
   echo "Mathematica is installed"
-  LIB=$(find /opt -name libML32i4.so | head -n 1)
+  LIB=$(find /opt -name libWSTP32i4.so | head -n 1)
   echo "Setting up MathLink library"
   sudo cp $LIB /usr/local/lib
   sudo ldconfig
@@ -146,10 +146,10 @@ if test "$RVAL" = "s"
 then
   echo "Skipping driver install."
 else
-  rm -r "./.Mathematica/Applications/GoIO" 2>/dev/null
-  mkdir "./.Mathematica/Applications/GoIO"
-  cp goiolink/GoIO.m ./.Mathematica/Applications/GoIO
-  cp goiolink/goio ./.Mathematica/Applications/GoIO
+  rm -r "~/.Mathematica/Applications/GoIO" 2>/dev/null
+  mkdir "~/.Mathematica/Applications/GoIO"
+  cp goiolink/GoIO.m ~/.Mathematica/Applications/GoIO
+  cp goiolink/goio ~/.Mathematica/Applications/GoIO
 fi
 
 echo "Installation finished.  Let's check if it works."
@@ -163,5 +163,3 @@ else
   echo "There might be a problem."
   echo $?
 fi
-
-
