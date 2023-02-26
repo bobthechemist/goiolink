@@ -1,7 +1,7 @@
-(* 
-  Written by BoB LeSuer (2016)        
-  Device driver for the Vernier Go! Link sensors 
-*) 
+(*
+  Written by BoB LeSuer (2016)
+  Device driver for the Vernier Go! Link sensors
+*)
 
 BeginPackage["GoIO`"]
 
@@ -10,7 +10,7 @@ BeginPackage["GoIO`"]
 (* Search for and uninstall any goio drivers that may be active *)
 Uninstall/@Links["*goio*"];
 $GoIOLink = Install[FileNameJoin[{$UserBaseDirectory,"Applications","GoIO","goio"}]];
-$GoIOLinkVersion = "1.1.0";
+$GoIOLinkVersion = "1.2.0";
 $GoIOSessionData = Association[];
 
 (* Functions that are useful to the end-user.  Help needs to be improved *)
@@ -29,7 +29,7 @@ goio::missing = " `1` is not a valid key for $GoIOSessionData."
 
 
 Begin["`Private`"]
-  
+
 (* Create the device framework *)
 DeviceFramework`DeviceClassRegister["GoIO",
   "ReadFunction"->(GoIO`goioVoltageConvert[First@GoIO`vplDeviceRead[],GoIO`vplDeviceCalibration[]]&),
@@ -40,7 +40,7 @@ DeviceFramework`DeviceClassRegister["GoIO",
   "ExecuteFunction"->GoIO`Private`executeCommand,
   "ConfigureFunction"->GoIO`Private`configure,
   "CloseFunction"->(GoIO`vplDeviceClose[]&),
-  "DeregisterOnClose"->False, 
+  "DeregisterOnClose"->False,
   "Singleton"->True, (* Only one GoIO connection allowed at this time *)
   "NativeProperties"->{ (* I define NativeProperties as those that require the MathLink code to *SET* their value *)
     "MeasurementPeriod"
@@ -64,7 +64,7 @@ DeviceFramework`DeviceClassRegister["GoIO",
   },
   "SetPropertyFunction"->GoIO`Private`setProp,
   "GetPropertyFunction"->GoIO`Private`getProp
-  
+
 
 ];
 
@@ -80,13 +80,13 @@ openRoutine[_,args___]:=Module[{},
 
 $methods = {"Read", "Units", "Calibration","Name", "ReadAll","ReadLong"};
 setProp[devHandle_,prop_, rhs_]:=If[MemberQ[$methods,prop],
-  If[properties[devHandle]["ZZInitialized"]===True,Message[goio::readonly,prop]], 
+  If[properties[devHandle]["ZZInitialized"]===True,Message[goio::readonly,prop]],
   properties[devHandle][prop]=rhs];
 getProp[devHandle_,prop_]:=properties[devHandle][prop]
 properties[_]["Read"] := GoIO`goioVoltageConvert[First@GoIO`vplDeviceRead[],GoIO`vplDeviceCalibration[]]
 properties[_]["Units"] := GoIO`vplDeviceUnits[]
 properties[_]["Calibration"]:=GoIO`vplDeviceCalibration[]
-properties[_]["Name"]:=GoIO`vplDeviceInfo[] 
+properties[_]["Name"]:=GoIO`vplDeviceInfo[]
 properties[_]["ReadAll"] := GoIO`goioVoltageConvert[#,GoIO`vplDeviceCalibration[]]&/@GoIO`vplDeviceReadBuffer[]
 
 (* Assuming that standard deviation can be converted from volts to sensor *)
@@ -125,7 +125,7 @@ goioVoltageConvert[x_,{a_,b_,c_,7.}]:=a Exp[b x];
 goioVoltageConvert[x_,{a_,b_,c_,8.}]:=a Exp[b/x];
 goioVoltageConvert[x_,{a_,b_,c_,9.}]:=a x^(b x);
 goioVoltageConvert[x_,{a_,b_,c_,10.}]:=a x^(b/x);
-goioVoltageConvert[x_,{a_,b_,c_,11.}]:=1/(a+b+Log[c x]); 
+goioVoltageConvert[x_,{a_,b_,c_,11.}]:=1/(a+b+Log[c x]);
 (* SteinhartHart - for thermisters - requires resistance                  *)
 goioVoltageConvert[x_,{a_,b_,c_,12.}]:=Module[{r = 15000, maxv = 5,v, x2},
   v = If[x>0.999 maxv,0.999 maxv,If[x<0.001 maxv,0.001 maxv,x]];
@@ -189,9 +189,9 @@ goioRTInterface[dev_DeviceObject]:=Module[{data = {},tsk,
 ]
 
 
-Options[goioExperiment] = {"Title" -> "None", "Comment" -> "", 
+Options[goioExperiment] = {"Title" -> "None", "Comment" -> "",
   "MeasurementPeriod" -> 0.04, "Persist" -> False};
-goioExperiment[interval_: 1, numPoints_: 10, OptionsPattern[]] := 
+goioExperiment[interval_: 1, numPoints_: 10, OptionsPattern[]] :=
   Module[{key, configTask, dataTask, procTask, procTaskEpilogFunction},
     (* Get new key in SessionData and create Association                  *)
     key = Length@$GoIOSessionData + 1;
@@ -203,31 +203,31 @@ goioExperiment[interval_: 1, numPoints_: 10, OptionsPattern[]] :=
     $GoIOSessionData[key]["Title"] = OptionValue["Title"];
     $GoIOSessionData[key]["Comment"] = OptionValue["Comment"];
     (* Create the tasks opposite the order they will be run               *)
-    (* 
+    (*
       Create the procTask, which at the moment just displays done and
-      removes the tasks unless the Persist option was passed. Note, 
-      that this is not a good route to running the same experiment 
-      multiple times because the current implementation will continue to 
+      removes the tasks unless the Persist option was passed. Note,
+      that this is not a good route to running the same experiment
+      multiple times because the current implementation will continue to
       use the same SessionData key, overwriting previous information.
     *)
     procTaskEpilogFunction := If[OptionValue["Persist"], Null,
       RemoveScheduledTask[{procTask, dataTask, configTask}]];
     procTask = CreateScheduledTask[Print["Done"], {1},
       "EpilogFunction" :> procTaskEpilogFunction];
-    (* 
-      Create the dataTask which stores sensor readings in the association 
+    (*
+      Create the dataTask which stores sensor readings in the association
     *)
-    dataTask =  
+    dataTask =
      CreateScheduledTask[
-      With[{x = Now, y = DeviceRead["GoIO"]}, 
-       $GoIOSessionData[key]["Data"][x] = y], {interval, numPoints}, 
+      With[{x = Now, y = DeviceRead["GoIO"]},
+       $GoIOSessionData[key]["Data"][x] = y], {interval, numPoints},
       "EpilogFunction" :> StartScheduledTask[procTask]];
     (* Create the configTask                                              *)
-    configTask = 
+    configTask =
      CreateScheduledTask[
       DeviceConfigure[
-       "GoIO", {"MeasurementPeriod" -> 
-         OptionValue["MeasurementPeriod"]}], {1}, 
+       "GoIO", {"MeasurementPeriod" ->
+         OptionValue["MeasurementPeriod"]}], {1},
       "EpilogFunction" :> StartScheduledTask[dataTask]];
     (* Return the task *)
     configTask
@@ -253,4 +253,3 @@ End[]
 
 
 EndPackage[]
-
