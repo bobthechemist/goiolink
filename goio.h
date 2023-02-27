@@ -1,4 +1,4 @@
-/* 
+/*
 
   goio.h
 
@@ -6,10 +6,10 @@
   Copyright (c) 2016 BoB LeSuer
   Distributed under the MIT license
 
-  Components of the GoIO software development kit are 
+  Components of the GoIO software development kit are
   Copyright (c) 2010 Vernier Software & Technology
   All rights reserved
-  See LICENSE_VST.txt for complete license 
+  See LICENSE_VST.txt for complete license
 
 */
 
@@ -18,13 +18,13 @@
 
 // Version numbers
 #define GOIO_MAJOR_VERSION 1
-#define GOIO_MINOR_VERSION 0
-#define GOIO_PATCH_NUMBER 1
+#define GOIO_MINOR_VERSION 2
+#define GOIO_PATCH_NUMBER 0
 #define GOIO_RC_NUMBER 0
 
 #define TARGET_OS_LINUX
 #define GOIO_MAX_SIZE_DEVICE_NAME 260
-#define MAX_NUM_MEASUREMENTS 1000 
+#define MAX_NUM_MEASUREMENTS 1000
 
 // Error codes
 #define ERR_OK 0
@@ -43,4 +43,3 @@ void devicemeasurementperiod();
 void deviceversion();
 void deviceclose();
 #endif
-
